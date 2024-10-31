@@ -109,7 +109,8 @@ namespace ImageGallery.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "MustOwnImage")]
+        //[Authorize(Policy = "MustOwnImage")]
+        [MustOwnImage]
         public async Task<IActionResult> DeleteImage(Guid id)
         {            
             var imageFromRepo = await _galleryRepository.GetImageAsync(id);
