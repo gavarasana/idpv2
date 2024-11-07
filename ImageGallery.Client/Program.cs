@@ -12,6 +12,8 @@ builder.Services.AddControllersWithViews()
     .AddJsonOptions(configure => 
         configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
+builder.Services.AddSingleton<IConfigurationManager, ConfigurationManager>();
+
 builder.Services.AddAccessTokenManagement();
 
 // create an HttpClient used for accessing the API
@@ -21,6 +23,13 @@ builder.Services.AddHttpClient("APIClient", client =>
     client.DefaultRequestHeaders.Clear();
     client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
 }).AddUserAccessTokenHandler();
+
+builder.Services.AddHttpClient("IDPClient", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["IdentityProvider:Authority"]);
+    client.DefaultRequestHeaders.Clear();
+    client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+});
 
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -36,7 +45,8 @@ builder.Services.AddAuthentication(options =>
     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.Authority = builder.Configuration["IdentityProvider:Authority"];
     options.ClientId = builder.Configuration["IdentityProvider:ClientId"];
-    options.ClientSecret = builder.Configuration["IdentityProvider:ClientSecret"];    
+    options.ClientSecret = builder.Configuration["IdentityProvider:ClientSecret"];
+    //options.Scope.Add("offline_access");
     options.Scope.Add("ImageGalleryApi.FullAccess");
     options.Scope.Add("roles");
     options.Scope.Add("country");

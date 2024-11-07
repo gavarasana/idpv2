@@ -23,7 +23,8 @@ public static class Config
     public static IEnumerable<ApiResource> ApiResources =>
         [
             new ApiResource("ImageGalleryApi", "Image Gallery API",["role", "country"]){
-                Scopes = { "ImageGalleryApi.FullAccess" }
+                Scopes = { "ImageGalleryApi.FullAccess" },
+                ApiSecrets = {new Secret("imageapisecret".Sha256()) }
             }
         ];
     public static IEnumerable<Client> Clients =>
@@ -34,7 +35,7 @@ public static class Config
                     ClientId = "ImageGalleryClient",
                     ClientName = "ImageGallery Client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    
+                    AccessTokenType = AccessTokenType.Reference,
                     RedirectUris =
                     {
                         "https://localhost:7184/signin-oidc"
