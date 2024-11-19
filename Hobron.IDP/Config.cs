@@ -35,7 +35,12 @@ public static class Config
                     ClientId = "ImageGalleryClient",
                     ClientName = "ImageGallery Client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    AccessTokenType = AccessTokenType.Reference,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AllowOfflineAccess = true,
+                    AccessTokenLifetime = 60,
+                    SlidingRefreshTokenLifetime = 60,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    //AccessTokenType = AccessTokenType.Reference,
                     RedirectUris =
                     {
                         "https://localhost:7184/signin-oidc"

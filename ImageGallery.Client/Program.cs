@@ -46,7 +46,7 @@ builder.Services.AddAuthentication(options =>
     options.Authority = builder.Configuration["IdentityProvider:Authority"];
     options.ClientId = builder.Configuration["IdentityProvider:ClientId"];
     options.ClientSecret = builder.Configuration["IdentityProvider:ClientSecret"];
-    //options.Scope.Add("offline_access");
+    options.Scope.Add("offline_access");
     options.Scope.Add("ImageGalleryApi.FullAccess");
     options.Scope.Add("roles");
     options.Scope.Add("country");
